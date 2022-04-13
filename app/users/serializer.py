@@ -3,10 +3,10 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    age = serializers.IntegerField()
+    age = serializers.ReadOnlyField()
 
 
     class Meta:
         model = User
-        fields = ('name', 'age')
+        fields = '__all__'
 
