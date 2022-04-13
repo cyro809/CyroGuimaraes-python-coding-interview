@@ -1,3 +1,4 @@
+from datetime import today
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
@@ -11,6 +12,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    birth_date = models.DateTimeField()
 
     objects = UserManager()
 
@@ -18,6 +20,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    @property
+    def age(self):
+        today = today.date()
+        birth_date_obj = self.birth_date.date()
+        age = today.year - birth_date_obj.yeear - ((today.month, today.day) < (birth_date_obj.month, birth_date_obj.day))
+        return age
+
 
     class Meta:
         verbose_name = 'User'
